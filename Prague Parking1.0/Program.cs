@@ -1,9 +1,6 @@
 ﻿// Prague Parking 1.0
 
-
-using System.Threading.Channels;
-
-string[] parkeringsGarage = new string[100];
+string[] parkeringsGarage = new string[1];
 
 Console.WriteLine("Välkommen till Prague Parking 1.0");
 
