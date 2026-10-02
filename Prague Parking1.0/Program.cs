@@ -21,7 +21,7 @@ while (true)
     // Kanske onödigt men gillar att inte menyn visa om och om igen vid felaktig inmatning. 
     int alternativ;
 
-    while (true)
+    while (true)        //Loopar tills det uppfyller kriterierna för val i switch-case loopen.
     { 
         Console.Write("Vänligen ange önskad åtgärd, alternativ 1-5: ");
     if (int.TryParse(Console.ReadLine(), out alternativ) && alternativ >= 1 && alternativ <= 5)
@@ -76,10 +76,11 @@ while (true)
 
 
 
-static void AngeRegNummer(string[] garage)
+string AngeRegNummer()
 {
     Console.Write("Vänligen ange ditt regnr: ");
     string regNr = Console.ReadLine().ToUpper();
+    return regNr;
 }
 
 static void SökaFordon(string[] garage)
@@ -116,25 +117,39 @@ static void TilldeladPlats(string[] garage)
 
 
 
-static void ParkeraFordon(string[] garage)
+static void ParkeraFordon(string[] parkering)
 {
     Console.Write("Vill du parkera MC eller CAR? ");
     string fordon = Console.ReadLine().ToUpper();
     if (fordon == "MC")
     {
-        AngeRegNummer();
-        
+        string regNr = AngeRegNummer();
+        for (int i = 0; i < parkering.Length; i++)
+        {
+            if (parkering[i] != null && parkering[i].StartsWith("MC") && (parkering[i].Contains("|") == false))
+            {
+                parkering[i] = parkering[i] + "|" + "MC" + "#" + regNr;
+                break;
+            }
+            else if (parkering[i] == null)
+            {
+                parkering[i] = "MC" + "#" + regNr;
+                break;
+            }
+            Console.WriteLine("Tyvärr, inga lediga platser för MC.");
+        }
     }
     else if (fordon == "CAR")
     {
-        Console.Write("Vänligen ange ditt regnr: ");
-        string regNr = Console.ReadLine().ToUpper();
-        for (int i = 0; i < garage.Length; i++)
+        string regNr = AngeRegNummer();
+        for (int i = 0; i < parkering.Length; i++)
         {
-            if (garage.Length == 0)
+            if (parkering[i] == null)
             {
-
+                parkering[i] = "CAR" + "#" + regNr;
+                break;
             }
+            Console.WriteLine("Tyvärr, inga lediga platser.");
         }
     }
     else
