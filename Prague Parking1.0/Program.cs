@@ -1,6 +1,6 @@
 ﻿// Prague Parking 1.0
 
-string[] parkeringsGarage = new string[1];
+string[] parkeringsGarage = new string[100];
 
 Console.WriteLine("Välkommen till Prague Parking 1.0");
 
@@ -24,7 +24,7 @@ while (true)
     while (true)        //Loopar tills det uppfyller kriterierna för val i switch-case loopen.
     {
         Console.Write("Vänligen ange önskad åtgärd, alternativ 1-6: ");
-        if (int.TryParse(Console.ReadLine(), out alternativ) && alternativ >= 1 && alternativ <= 5)
+        if (int.TryParse(Console.ReadLine(), out alternativ) && alternativ >= 1 && alternativ <= 6)
         {
             break;
 
@@ -36,7 +36,7 @@ while (true)
         case 1:
             {
                 Console.WriteLine("Parkera fordon");
-                ParkeraFordon(parkeringsGarage);
+                ParkeraFordon();
                 break;
             }
         case 2: //Normalt vill man ha detta i långa formatet då det oftare händer fler saker inom varje case.
@@ -60,7 +60,7 @@ while (true)
         case 5:
             {
                 Console.WriteLine("Visa parkeringsgaraget");
-                VisaLista(parkeringsGarage);
+                VisaLista();
                 break;
             }
         case 6:
@@ -83,15 +83,14 @@ while (true)
 
 string AngeRegNummer()
 {
-    Console.Write("Vänligen ange ditt regnr: ");
+    Console.Write("Vänligen ange regnr: ");
     string regNr = Console.ReadLine().ToUpper();
     return regNr;
 }
 
 void SökaFordon(string[] parkeringsGarage)
 {
-    Console.Write("Ange regnr: ");
-    string regNr = Console.ReadLine().ToUpper();
+    string regNr = AngeRegNummer();
     for (int i = 0; i < parkeringsGarage.Length; i++)
     {
         if (parkeringsGarage[i].Contains(regNr))
@@ -126,7 +125,7 @@ void HittaLedigPlats(string[] parkeringsGarage)
 }
 
 
-void VisaLista(string[] parkeringsGarage)
+void VisaLista()
 {
     for (int i = 0; i < parkeringsGarage.Length; i++)
     {
@@ -144,7 +143,7 @@ static void TilldeladPlats(string[] parkeringsGarage)
 
 
 
-void ParkeraFordon(string[] parkeringsGarage)
+void ParkeraFordon()
 {
     Console.Write("Vill du parkera MC eller CAR? ");
     string fordon = Console.ReadLine().ToUpper();
