@@ -53,8 +53,8 @@ while (true)
             }
         case 4:
             {
-                Console.WriteLine("Hitta fordon");
-                SökaFordon(parkeringsGarage);
+                Console.WriteLine("Söka fordon");
+                SökaFordon();
                 break;
             }
         case 5:
@@ -88,7 +88,7 @@ string AngeRegNummer()
     return regNr;
 }
 
-void SökaFordon(string[] parkeringsGarage)
+void SökaFordon()
 {
     string regNr = AngeRegNummer();
     for (int i = 0; i < parkeringsGarage.Length; i++)
