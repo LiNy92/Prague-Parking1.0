@@ -1,6 +1,8 @@
 ﻿// Prague Parking 1.0
 
 
+using System.Threading.Channels;
+
 string[] parkeringsGarage = new string[100];
 
 Console.WriteLine("Välkommen till Prague Parking 1.0");
@@ -14,7 +16,8 @@ while (true)
     Console.WriteLine("2. Checka ut fordon");
     Console.WriteLine("3. Flytta fordon");
     Console.WriteLine("4. Hitta fordon");
-    Console.WriteLine("5. Avsluta programmet");
+    Console.WriteLine("5. Visa parkeringsgaraget");
+    Console.WriteLine("6. Avsluta programmet");
 
     // Skulle vilja gardera mig för felinmatning. Inte helt nöjd med denna lösning. Men får duga för nu.
     // Ogillar att menyn snurrar om varje gång det blir fel. Hade velat ha Försök igen bara.. Tror jag fått ordning nu.
@@ -22,51 +25,56 @@ while (true)
     int alternativ;
 
     while (true)        //Loopar tills det uppfyller kriterierna för val i switch-case loopen.
-    { 
-        Console.Write("Vänligen ange önskad åtgärd, alternativ 1-5: ");
-    if (int.TryParse(Console.ReadLine(), out alternativ) && alternativ >= 1 && alternativ <= 5)
     {
-        break;
-
-    }
-    Console.WriteLine("Felaktig inmatning. Försök igen");
-}
-        switch (alternativ)
+        Console.Write("Vänligen ange önskad åtgärd, alternativ 1-6: ");
+        if (int.TryParse(Console.ReadLine(), out alternativ) && alternativ >= 1 && alternativ <= 5)
         {
-            case 1:
-                {
-                    Console.WriteLine("Parkera fordon");
+            break;
 
-                    //metod;     //break för att bryta ur
-                    break;
-                }
-            case 2: //Normalt vill man ha detta i långa formatet då det oftare händer fler saker inom varje case.
-                {
-                    Console.WriteLine("Checka ut fordon");
-                    //metod
-                    break;
-                }
-            case 3:
-                {
-                    Console.WriteLine("Flytta fordon/Byta plats");
-                    // metod
-                    break;
-                }
-            case 4:
-                {
-                    Console.WriteLine("Hitta fordon");
-                    // metod
-                    break;
-                }
-            case 5:
-                {
-                    Console.WriteLine("Avsluta programmet.");
-                    return;
-                }
-            default:
-                Console.WriteLine("Felaktig inmatning! Försök igen.");  //Körs enbart om något villkor missas vid någon ändring och tar sig förbi.
-                break;
         }
+        Console.WriteLine("Felaktig inmatning. Försök igen");
+    }
+    switch (alternativ)
+    {
+        case 1:
+            {
+                Console.WriteLine("Parkera fordon");
+                ParkeraFordon(parkeringsGarage);
+                break;
+            }
+        case 2: //Normalt vill man ha detta i långa formatet då det oftare händer fler saker inom varje case.
+            {
+                Console.WriteLine("Checka ut fordon");
+                //metod
+                break;
+            }
+        case 3:
+            {
+                Console.WriteLine("Flytta fordon/Byta plats");
+                // metod
+                break;
+            }
+        case 4:
+            {
+                Console.WriteLine("Hitta fordon");
+                SökaFordon(parkeringsGarage);
+                break;
+            }
+        case 5:
+            {
+                Console.WriteLine("Visa parkeringsgaraget");
+                VisaLista(parkeringsGarage);
+                break;
+            }
+        case 6:
+            {
+                Console.WriteLine("Avsluta programmet.");
+                return;
+            }
+        default:
+            Console.WriteLine("Felaktig inmatning! Försök igen.");  //Körs enbart om något villkor missas vid någon ändring och tar sig förbi.
+            break;
+    }
 }
 
 
@@ -83,72 +91,108 @@ string AngeRegNummer()
     return regNr;
 }
 
-static void SökaFordon(string[] garage)
+void SökaFordon(string[] parkeringsGarage)
+{
+    Console.Write("Ange regnr: ");
+    string regNr = Console.ReadLine().ToUpper();
+    for (int i = 0; i < parkeringsGarage.Length; i++)
+    {
+        if (parkeringsGarage[i].Contains(regNr))
+        {
+            Console.WriteLine($"{regNr} finns på plats {(i + 1)}");
+            Console.WriteLine("Tryck på valfri tanget för att återgå till menyn.");
+            Console.ReadKey(true);
+        }
+        if (parkeringsGarage[i].Contains(regNr) == false)
+        {
+            Console.WriteLine("Angivet regnr hittas ej i systemet.");
+            Console.WriteLine("Tryck på valfri tanget för att återgå till menyn.");
+            Console.ReadKey(true);
+        }
+        break;
+    }
+}
+
+void TaBortFordon(string[] parkeringsGarage)
 {
 
 }
 
-static void TaBortFordon(string[] garage)
+void LäggaTillFordon(string[] parkeringsGarage)
 {
 
 }
 
-static void LäggaTillFordon(string[] garage)
-{
-
-}
-
-static void HittaLedigPlats(string[] garage)
+void HittaLedigPlats(string[] parkeringsGarage)
 {
 
 }
 
 
-static void VisaLista(string[] garage)
+void VisaLista(string[] parkeringsGarage)
+{
+    for (int i = 0; i < parkeringsGarage.Length; i++)
+    {
+        Console.WriteLine($"Plats{i + 1}: {parkeringsGarage[i]}");
+    }
+    Console.WriteLine("Tryck på valfri tanget för att återgå till menyn.");
+    Console.ReadKey(true);
+}
+
+static void TilldeladPlats(string[] parkeringsGarage)
 {
 
 }
 
-static void TilldeladPlats(string[] garage)
-{
-
-}
 
 
 
-
-static void ParkeraFordon(string[] parkering)
+void ParkeraFordon(string[] parkeringsGarage)
 {
     Console.Write("Vill du parkera MC eller CAR? ");
     string fordon = Console.ReadLine().ToUpper();
     if (fordon == "MC")
     {
         string regNr = AngeRegNummer();
-        for (int i = 0; i < parkering.Length; i++)
+        for (int i = 0; i < parkeringsGarage.Length; i++)
         {
-            if (parkering[i] != null && parkering[i].StartsWith("MC") && (parkering[i].Contains("|") == false))
+            if (parkeringsGarage[i] != null && parkeringsGarage[i].StartsWith("MC") && (parkeringsGarage[i].Contains("|") == false))
             {
-                parkering[i] = parkering[i] + "|" + "MC" + "#" + regNr;
+                parkeringsGarage[i] = parkeringsGarage[i] + "|" + "MC" + "#" + regNr;
+                Console.WriteLine($"MC ska parkeras på plats {i + 1} ");
+                Console.WriteLine("Tryck på valfri tanget för att återgå till menyn."); //Adderades för att användaren ska hinna se var
+                                                                                        //fordonet ska parkeras innan återgång till menyn
+                Console.ReadKey(true);
                 break;
             }
-            else if (parkering[i] == null)
+            else if (parkeringsGarage[i] == null)
             {
-                parkering[i] = "MC" + "#" + regNr;
+                parkeringsGarage[i] = "MC" + "#" + regNr;
+                Console.WriteLine($"Motorcykeln ska parkeras på plats {i + 1} ");
+                Console.WriteLine("Tryck på valfri tanget för att återgå till menyn.");
+                Console.ReadKey(true);
                 break;
             }
-            Console.WriteLine("Tyvärr, inga lediga platser för MC.");
+            else if (i == parkeringsGarage.Length - 1)
+            {
+                Console.WriteLine("Tyvärr, inga lediga platser för MC.");
+            }
         }
     }
     else if (fordon == "CAR")
     {
         string regNr = AngeRegNummer();
-        for (int i = 0; i < parkering.Length; i++)
+        for (int i = 0; i < parkeringsGarage.Length; i++)
         {
-            if (parkering[i] == null)
+            if (parkeringsGarage[i] == null)
             {
-                parkering[i] = "CAR" + "#" + regNr;
+                parkeringsGarage[i] = "CAR" + "#" + regNr;
+                Console.WriteLine($"Bilen ska parkeras på plats {i + 1} ");
+                Console.WriteLine("Tryck på valfri tanget för att återgå till menyn.");
+                Console.ReadKey(true);
                 break;
             }
+            else if (i == parkeringsGarage.Length - 1)
             Console.WriteLine("Tyvärr, inga lediga platser.");
         }
     }
