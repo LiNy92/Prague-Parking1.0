@@ -121,7 +121,7 @@ int IndexRegNr(string regNr)
     return -1;
 }
 
-string FordonsTyp(int i)
+string HittaFordonsTyp(int i)
 {
     if (parkeringsGarage[i].Contains("CAR") && i != -1)
     {
@@ -133,7 +133,7 @@ string FordonsTyp(int i)
     }
     else
     {
-        return;
+        return null;
     }
 } 
 
@@ -192,19 +192,26 @@ void FlyttaFordon()
 {
     string regNr = AngeRegNummer();
     int i = IndexRegNr(regNr);
+    string fordonstyp = HittaFordonsTyp(i);
 
     if (i == -1)
     {
         Console.WriteLine("\nAngivet registreringsnummer hittades ej.");
         return;
     }
-    if (i >= 0 && i <= 100)
+    
+    bool valdplatsledig = VäljaLedigPlats(fordonstyp, regNr, i);
+    
+    if (valdplatsledig == true && i >= 0 && i <= 100)
     {
         TaBortFordon(i, regNr);
     }
 
-    string fordonstyp = FordonsTyp(i);
 
+}
+
+bool VäljaLedigPlats(string fordonstyp, string regNr, int i)
+{
     VisaLista();
     Console.Write("Ange önskad ledig parkeringsplats (1-100): ");
     int.TryParse(Console.ReadLine(), out int valdPlats);
@@ -217,21 +224,25 @@ void FlyttaFordon()
         {
             parkeringsGarage[valtIndex] = parkeringsGarage[valtIndex] + "|" + fordonstyp + "#" + regNr;
             Console.WriteLine($"{fordonstyp} ska parkeras på plats: {valtIndex + 1} ");
+            return true;
         }
         else if (parkeringsGarage[valtIndex] == null)
         {
             parkeringsGarage[i] = "MC" + "#" + regNr;
             Console.WriteLine($"Motorcykeln ska parkeras på plats: {valtIndex + 1} ");
+            return true;
         }
     }
     if (fordonstyp == "CAR" && parkeringsGarage[valtIndex] == null)
     {
         parkeringsGarage[valtIndex] = "CAR" + "#" + regNr;
         Console.WriteLine($"Bilen ska parkeras på plats: {valtIndex + 1} ");
+        return true;
     }
     else
     {
         Console.WriteLine($"Valdplats {valdPlats} är ej ledig.");
+        return false;
     }
 }
 
