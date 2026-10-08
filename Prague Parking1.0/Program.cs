@@ -6,26 +6,16 @@ Console.WriteLine("Välkommen till Prague Parking 1.0");
 
 while (true)
 {
-    Console.WriteLine();
-    Console.WriteLine("MENY");
-    Console.WriteLine();
-    Console.WriteLine("1. Parkera fordon");
-    Console.WriteLine("2. Checka ut fordon");
-    Console.WriteLine("3. Flytta fordon");
-    Console.WriteLine("4. Hitta fordon");
-    Console.WriteLine("5. Visa parkeringsgaraget");
-    Console.WriteLine("6. Avsluta programmet");
-    Console.WriteLine();
- 
-    int val;
-    
+    VisaMeny();
+
+    int val;    //lagerplats för valet
+
     while (true)        //Loopar tills det uppfyller kriterierna för val i switch-case loopen.
     {
         Console.Write("Vänligen ange önskad åtgärd, alternativ 1-6: ");
         if (int.TryParse(Console.ReadLine(), out val) && val >= 1 && val <= 6)
         {
             break;
-
         }
         Console.WriteLine("Felaktig inmatning. Försök igen");
     }
@@ -35,40 +25,30 @@ while (true)
             {
                 Console.WriteLine("\nParkera fordon");
                 ParkeraFordon();
-                Console.WriteLine("\nTryck på valfri tanget för att återgå till menyn."); //Upprepas efter varje case för att användaren ska hinna läsa informationen innan nytt menyval.
-                Console.ReadKey(true);
                 break;
             }
-        case 2: //Normalt vill man ha detta i långa formatet då det oftare händer fler saker inom varje case.
+        case 2:
             {
                 Console.WriteLine("\nChecka ut fordon");
                 CheckaUtFordon();
-                Console.WriteLine("\nTryck på valfri tanget för att återgå till menyn.");
-                Console.ReadKey(true);
                 break;
             }
         case 3:
             {
                 Console.WriteLine("\nFlytta fordon");
                 FlyttaFordon();
-                Console.WriteLine("\nTryck på valfri tanget för att återgå till menyn.");
-                Console.ReadKey(true);
                 break;
             }
         case 4:
             {
                 Console.WriteLine("\nSöka fordon");
                 HittaFordon();
-                Console.WriteLine("\nTryck på valfri tanget för att återgå till menyn.");
-                Console.ReadKey(true);
                 break;
             }
         case 5:
             {
                 Console.WriteLine("\nVisa parkeringsgaraget");
                 VisaLista();
-                Console.WriteLine("\nTryck på valfri tanget för att återgå till menyn.");
-                Console.ReadKey(true);
                 break;
             }
         case 6:
@@ -81,20 +61,43 @@ while (true)
             Console.WriteLine();
             break;
     }
+    Console.WriteLine("\nTryck på valfri tanget för att återgå till menyn.");   //Ville göra det till ett aktivt val så att all information hinner läsas av användaren först. Var bilen ska bl a.
+    Console.ReadKey(true);
+    Console.Clear();    //Rensar Konsolen och återgår till menyn
 }
-
 
 
 
 //Metoder:
 
+void VisaMeny()
+{
+    Console.WriteLine();
+    Console.WriteLine("MENY");
+    Console.WriteLine();
+    Console.WriteLine("1. Parkera fordon");
+    Console.WriteLine("2. Checka ut fordon");
+    Console.WriteLine("3. Flytta fordon");
+    Console.WriteLine("4. Hitta fordon");
+    Console.WriteLine("5. Visa parkeringsgaraget");
+    Console.WriteLine("6. Avsluta programmet");
+    Console.WriteLine();
+}
 
 
 string AngeRegNummer()
 {
-    Console.Write("\nVänligen ange regnr: ");
-    string regNr = Console.ReadLine().ToUpper();
-    return regNr;
+    while (true)
+    {
+        Console.Write("\nVänligen ange regnr (max 10 tecken): ");
+        string regNr = Console.ReadLine().ToUpper().Trim();
+
+        if (regNr.Length > 0 && regNr.Length <= 10)
+        {
+            return regNr;
+        }
+        Console.WriteLine("Felaktig inmatning. Registeringsnumret får ej vara tomt eller längre än 10 tecken.");
+    }
 }
 
 int IndexRegNr(string regNr)
@@ -132,7 +135,7 @@ string HittaFordonsTyp(int i)
     {
         return null;
     }
-} 
+}
 
 void HittaFordon()
 {
@@ -140,7 +143,7 @@ void HittaFordon()
     int i = IndexRegNr(regNr);
 
     if (i >= 0 && i < 100)
-    { 
+    {
         Console.WriteLine($"\n{regNr} finns på plats {(i + 1)}");
     }
     else
@@ -196,9 +199,9 @@ void FlyttaFordon()
         Console.WriteLine("\nAngivet registreringsnummer hittades ej.");
         return;
     }
-    
+
     bool valdplatsledig = VäljaLedigPlats(fordonstyp, regNr, i);
-    
+
     if (valdplatsledig == true && i >= 0 && i <= 100)
     {
         TaBortFordon(i, regNr);
@@ -244,7 +247,7 @@ bool VäljaLedigPlats(string fordonstyp, string regNr, int i)        //Gör retu
 }
 
 
-    void VisaLista()
+void VisaLista()
 {
     for (int i = 0; i < parkeringsGarage.Length; i++)
     {
@@ -261,7 +264,7 @@ void ParkeraFordon()
     {
         string regNr = AngeRegNummer();
         ParkeraMC(regNr);
-        
+
     }
     else if (fordon == "CAR")
     {
@@ -275,18 +278,18 @@ void ParkeraFordon()
 }
 
 void ParkeraBil(string regNr)
-{ 
+{
     for (int i = 0; i < parkeringsGarage.Length; i++)
+    {
+        if (parkeringsGarage[i] == null)
         {
-            if (parkeringsGarage[i] == null)
-            {
-                parkeringsGarage[i] = "CAR" + "#" + regNr;
-                Console.WriteLine($"Bilen ska parkeras på plats: {i + 1} ");
+            parkeringsGarage[i] = "CAR" + "#" + regNr;
+            Console.WriteLine($"Bilen ska parkeras på plats: {i + 1} ");
             break;
-            }
-            else if (i == parkeringsGarage.Length - 1)
-            Console.WriteLine("Tyvärr, inga lediga platser.");
         }
+        else if (i == parkeringsGarage.Length - 1)
+            Console.WriteLine("Tyvärr, inga lediga platser.");
+    }
 }
 
 void ParkeraMC(string regNr)
