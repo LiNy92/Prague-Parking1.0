@@ -16,23 +16,20 @@ while (true)
     Console.WriteLine("5. Visa parkeringsgaraget");
     Console.WriteLine("6. Avsluta programmet");
     Console.WriteLine();
-
-    // Skulle vilja gardera mig för felinmatning. Inte helt nöjd med denna lösning. Men får duga för nu.
-    // Ogillar att menyn snurrar om varje gång det blir fel. Hade velat ha Försök igen bara.. Tror jag fått ordning nu.
-    // Kanske onödigt men gillar att inte menyn visa om och om igen vid felaktig inmatning. 
-    int alternativ;
+ 
+    int val;
     
     while (true)        //Loopar tills det uppfyller kriterierna för val i switch-case loopen.
     {
         Console.Write("Vänligen ange önskad åtgärd, alternativ 1-6: ");
-        if (int.TryParse(Console.ReadLine(), out alternativ) && alternativ >= 1 && alternativ <= 6)
+        if (int.TryParse(Console.ReadLine(), out val) && val >= 1 && val <= 6)
         {
             break;
 
         }
         Console.WriteLine("Felaktig inmatning. Försök igen");
     }
-    switch (alternativ)
+    switch (val)
     {
         case 1:
             {
@@ -210,7 +207,7 @@ void FlyttaFordon()
 
 }
 
-bool VäljaLedigPlats(string fordonstyp, string regNr, int i)
+bool VäljaLedigPlats(string fordonstyp, string regNr, int i)        //Gör return true eller fasle beroende på om ledig plats hittas eller ej.
 {
     VisaLista();
     Console.Write("Ange önskad ledig parkeringsplats (1-100): ");
@@ -228,7 +225,7 @@ bool VäljaLedigPlats(string fordonstyp, string regNr, int i)
         }
         else if (parkeringsGarage[valtIndex] == null)
         {
-            parkeringsGarage[i] = "MC" + "#" + regNr;
+            parkeringsGarage[valtIndex] = "MC" + "#" + regNr;
             Console.WriteLine($"Motorcykeln ska parkeras på plats: {valtIndex + 1} ");
             return true;
         }
@@ -247,27 +244,6 @@ bool VäljaLedigPlats(string fordonstyp, string regNr, int i)
 }
 
 
-    //if (fordonstyp == "MC" && parkeringsGarage[valtIndex] != null && parkeringsGarage[i].StartsWith("MC") && (parkeringsGarage[i].Contains("|") == false))
-    //{
-    //    parkeringsGarage[i] = parkeringsGarage[i] + "|" + fordonstyp + "#" + regNr;
-    //}
-
-
-    //int LedigPlats(int valtIndex, string fordonsTyp)
-    //    {
-    //        if (parkeringsGarage[] == null)
-    //        {
-    //            return true;
-    //        }
-    //        if (fordonsTyp == "MC" && parkeringsGarage[i].Contains('|'))
-    //        if (parkeringsGarage[i] != null && parkeringsGarage[i].StartsWith("MC") && (parkeringsGarage[i].Contains("|") == false))
-    //        {
-    //            return ;
-    //        }
-    //    }
-    //}
-
-
     void VisaLista()
 {
     for (int i = 0; i < parkeringsGarage.Length; i++)
@@ -275,8 +251,6 @@ bool VäljaLedigPlats(string fordonstyp, string regNr, int i)
         Console.WriteLine($"Plats{i + 1}: {parkeringsGarage[i]}");
     }
 }
-
-
 
 
 void ParkeraFordon()
@@ -319,9 +293,9 @@ void ParkeraMC(string regNr)
 {
     for (int i = 0; i < parkeringsGarage.Length; i++)
     {
-        if (parkeringsGarage[i] != null && parkeringsGarage[i].StartsWith("MC") && (parkeringsGarage[i].Contains("|") == false))
-        {
-            parkeringsGarage[i] = parkeringsGarage[i] + "|" + "MC" + "#" + regNr;
+        if (parkeringsGarage[i] != null && parkeringsGarage[i].StartsWith("MC") && (parkeringsGarage[i].Contains("|") == false))    //Kollar på de platser som ej är tomma ifall det står en ensam MC där.
+        {                                                                                                                         //Ska i så fall endast stå MC och inte ett skiljetecken för då står det två MC.
+            parkeringsGarage[i] = parkeringsGarage[i] + "|" + "MC" + "#" + regNr;   //Lägger till | mellan två MC
             Console.WriteLine($"MC ska parkeras på plats: {i + 1} ");
             break;
         }
