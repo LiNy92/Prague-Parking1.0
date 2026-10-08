@@ -1,8 +1,9 @@
-﻿// Prague Parking 1.0
+﻿
+// Prague Parking 1.1
 
 string[] parkeringsGarage = new string[100];
 
-Console.WriteLine("Välkommen till Prague Parking 1.0");
+Console.WriteLine("Välkommen till Prague Parking 1.1");
 
 while (true)
 {
@@ -246,34 +247,47 @@ bool VäljaLedigPlats(string fordonstyp, string regNr, int i)        //Gör retu
     }
 }
 
-
 void VisaLista()
 {
     for (int i = 0; i < parkeringsGarage.Length; i++)
     {
-        Console.WriteLine($"Plats{i + 1}: {parkeringsGarage[i]}");
+        if (parkeringsGarage[i] == null)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Plats{i + 1}: Ledigt");
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Plats{i + 1}: {parkeringsGarage[i]}");
+        }
+        Console.ResetColor();
     }
 }
 
-
 void ParkeraFordon()
 {
-    Console.Write("Vill du parkera MC eller CAR? ");
-    string fordon = Console.ReadLine().ToUpper();
-    if (fordon == "MC")
+    while (true)
     {
-        string regNr = AngeRegNummer();
-        ParkeraMC(regNr);
+        Console.Write("Vill du parkera MC eller CAR? ");
+        string fordon = Console.ReadLine().ToUpper();
+        if (fordon == "MC")
+        {
+            string regNr = AngeRegNummer();
+            ParkeraMC(regNr);
+            break;
 
-    }
-    else if (fordon == "CAR")
-    {
-        string regNr = AngeRegNummer();
-        ParkeraBil(regNr);
-    }
-    else
-    {
-        Console.WriteLine("\nOgiltigt svar. Ange MC eller CAR");
+        }
+        else if (fordon == "CAR")
+        {
+            string regNr = AngeRegNummer();
+            ParkeraBil(regNr);
+            break;
+        }
+        else
+        {
+            Console.WriteLine("\nOgiltigt svar. Ange MC eller CAR");
+        }
     }
 }
 
