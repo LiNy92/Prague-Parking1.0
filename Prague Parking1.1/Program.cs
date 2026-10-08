@@ -3,10 +3,10 @@
 
 string[] parkeringsGarage = new string[100];
 
-Console.WriteLine("Välkommen till Prague Parking 1.1");
-
 while (true)
 {
+    Console.WriteLine("Välkommen till Prague Parking 1.1");
+
     VisaMeny();
 
     int val;    //lagerplats inom while-loopen för valet
