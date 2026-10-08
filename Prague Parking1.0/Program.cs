@@ -49,6 +49,9 @@ while (true)
             {
                 Console.WriteLine("\nVisa parkeringsgaraget");
                 VisaLista();
+                //Console.WriteLine("\nTryck på valfri tanget för att återgå till menyn.");   //Ville göra det till ett aktivt val så att all information hinner läsas av användaren först. Var bilen ska bl a.
+                //Console.ReadKey(true);
+                //Console.Clear();
                 break;
             }
         case 6:
