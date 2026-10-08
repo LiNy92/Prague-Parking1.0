@@ -85,7 +85,6 @@ void VisaMeny()
     Console.WriteLine();
 }
 
-
 string AngeRegNummer()
 {
     while (true)

@@ -17,7 +17,7 @@ while (true)
         {
             break;
         }
-        Console.WriteLine("Felaktig inmatning. Försök igen");
+        Console.WriteLine("Felaktig inmatning. Försök igen.");
     }
     switch (val)
     {
@@ -147,7 +147,7 @@ void HittaFordon()
 
     if (i >= 0 && i < 100)
     {
-        Console.WriteLine($"\n{regNr} finns på plats {(i + 1)}");
+        Console.WriteLine($"\n{regNr} finns på plats {(i + 1)}.");
     }
     else
     {
