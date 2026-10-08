@@ -8,9 +8,9 @@ while (true)
 {
     VisaMeny();
 
-    int val;    //lagerplats för valet
+    int val;    //lagerplats inom while-loopen för valet
 
-    while (true)        //Loopar tills det uppfyller kriterierna för val i switch-case loopen.
+    while (true)        //Loopar tills det uppfyller kriterierna för val inför switch-case loopen.
     {
         Console.Write("Vänligen ange önskad åtgärd, alternativ 1-6: ");
         if (int.TryParse(Console.ReadLine(), out val) && val >= 1 && val <= 6)
