@@ -171,20 +171,20 @@ void TaBortFordon(int i, string regNr)
     if (parkeringsGarage[i].Contains('|') == false)
     {
         parkeringsGarage[i] = null;
-        Console.WriteLine($"\nFordon: {regNr} har hämtats och plats {(i + 1)} är nu tom");
+        Console.WriteLine($"\nFordon: {regNr} har hämtats och plats {(i + 1)} är nu tom.");
     }
     else
     {
-        string[] textDelar = parkeringsGarage[i].Split('|');
+        string[] textDelar = parkeringsGarage[i].Split('|');        //Skapar lista av de eventuella två MC och |
         if (textDelar[0].Contains(regNr))
         {
-            parkeringsGarage[i] = textDelar[1];
+            parkeringsGarage[i] = textDelar[1];             //Ersätter plats i med det regNr av MC som ska stå kvar.
         }
         else
         {
             parkeringsGarage[i] = textDelar[0];
         }
-        Console.WriteLine($"\nFordon {regNr} har hämtats från plats {i + 1}");
+        Console.WriteLine($"\nFordon: {regNr} har hämtats från plats {i + 1}.");
     }
 }
 
@@ -195,7 +195,7 @@ void FlyttaFordon()
 
     if ((i == -1))
     {
-        Console.WriteLine("\nAngivet registreringsnummer hittades ej.");
+        Console.WriteLine("\nAngivet registreringsnummer hittades ej.");    //säkrar upp ifall användaren sökt på ett reg-nr som inte finns i systemet
         return;
     }
 
@@ -272,6 +272,11 @@ void ParkeraFordon()
         if (fordon == "MC")
         {
             string regNr = AngeRegNummer();
+            if (IndexRegNr(regNr) != -1)    //Kollar så inte samma reg-nr redan finns i systemet
+            {
+                Console.WriteLine($"\nAngivet registreringsnummer: {regNr} finns redan i garaget!");
+                break;
+            }
             ParkeraMC(regNr);
             break;
 
@@ -279,6 +284,11 @@ void ParkeraFordon()
         else if (fordon == "CAR")
         {
             string regNr = AngeRegNummer();
+            if (IndexRegNr(regNr) != -1)
+            {
+                Console.WriteLine($"\nAngivet registreringsnummer: {regNr} finns redan i garaget!");
+                break;
+            }
             ParkeraBil(regNr);
             break;
         }
