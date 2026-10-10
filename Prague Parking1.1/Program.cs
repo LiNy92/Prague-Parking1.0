@@ -192,13 +192,14 @@ void FlyttaFordon()
 {
     string regNr = AngeRegNummer();
     int i = IndexRegNr(regNr);
-    string fordonstyp = HittaFordonsTyp(i);
 
-    if (i == -1)
+    if ((i == -1))
     {
         Console.WriteLine("\nAngivet registreringsnummer hittades ej.");
         return;
     }
+
+    string fordonstyp = HittaFordonsTyp(i);
 
     bool valdplatsledig = VäljaLedigPlats(fordonstyp, regNr, i);
 
@@ -206,8 +207,6 @@ void FlyttaFordon()
     {
         TaBortFordon(i, regNr);
     }
-
-
 }
 
 bool VäljaLedigPlats(string fordonstyp, string regNr, int i)        //Gör return true eller fasle beroende på om ledig plats hittas eller ej.
@@ -286,6 +285,7 @@ void ParkeraFordon()
         else
         {
             Console.WriteLine("\nOgiltigt svar. Ange MC eller CAR");
+            break;
         }
     }
 }
