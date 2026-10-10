@@ -249,7 +249,6 @@ bool VäljaLedigPlats(string fordonstyp, string regNr, int i)        //Gör retu
     }
 }
 
-
 void VisaLista()
 {
     for (int i = 0; i < parkeringsGarage.Length; i++)
@@ -257,7 +256,6 @@ void VisaLista()
         Console.WriteLine($"Plats{i + 1}: {parkeringsGarage[i]}");
     }
 }
-
 
 void ParkeraFordon()
 {
