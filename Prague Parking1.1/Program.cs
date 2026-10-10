@@ -1,5 +1,4 @@
-﻿
-// Prague Parking 1.1
+﻿// Prague Parking 1.1
 
 string[] parkeringsGarage = new string[100];
 
